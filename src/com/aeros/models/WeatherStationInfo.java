@@ -12,12 +12,14 @@ package com.aeros.models;
 
 import com.aeros.controllers.WeatherDataHandler;
 import com.aeros.main.Util;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -36,7 +38,7 @@ public class WeatherStationInfo {
         try {
             SAXParser saxParser = saxParserFactory.newSAXParser();
             WeatherDataHandler weatherDataHandler = new WeatherDataHandler();
-            saxParser.parse(_buffer, weatherDataHandler);
+            saxParser.parse(new InputSource(new StringReader(_buffer)), weatherDataHandler);
         }
 
         catch (ParserConfigurationException | IOException | SAXException e) {

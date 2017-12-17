@@ -11,10 +11,11 @@
 package com.aeros.main;
 
 import com.aeros.controllers.Connection;
+import com.aeros.controllers.Queue;
+import com.aeros.controllers.WeatherDataHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 public class Main {
 
@@ -23,7 +24,9 @@ public class Main {
 
     public static void main(String[] args) {
         ServerSocket serverSocket = null;
-        Socket socket = null;
+
+        Thread queueThread;
+        Queue<String> queue = new Queue<>();
 
         System.out.println(":: Vancouver - Epic Server Software");
 
@@ -45,6 +48,12 @@ public class Main {
             Util.throwError("Could not connect to remote server", e.getMessage());
             return;
         }
+
+        queueThread = new Thread(queue);
+        queueThread.start();
+
+        // Yes. This is bad. I know. Sorry.
+        WeatherDataHandler.setQueue(queue);
 
         while (true) {
             try {

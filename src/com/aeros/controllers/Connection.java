@@ -19,15 +19,11 @@ import java.net.Socket;
 
 public class Connection implements Runnable {
 
-    private Socket _socket;
     private DataInputStream _inputStream;
-    private String _transmission;
 
     private volatile byte[] _buffer;
 
     public Connection(Socket socket) {
-        _socket = socket;
-
         Util.printStatus("Started new thread");
 
         try {
@@ -49,10 +45,6 @@ public class Connection implements Runnable {
                 if ((length = _inputStream.available()) != -1) {
                     _buffer = new byte[length];
                     _inputStream.readFully(_buffer);
-
-                    for (byte b : _buffer) {
-                        System.out.print((char) b);
-                    }
 
                     if (_buffer.length != 0)
                         new WeatherStationInfo(_buffer).parse();

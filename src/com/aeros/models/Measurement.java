@@ -28,7 +28,7 @@ public class Measurement {
     private float _precipitation;
     private float _fallenSnow;
 
-    private int _flags;
+    private String _flags;
     private float _clouds;
     private int _windDirection;
 
@@ -76,7 +76,7 @@ public class Measurement {
         return _fallenSnow;
     }
 
-    public int getFlags() {
+    public String getFlags() {
         return _flags;
     }
 
@@ -86,5 +86,61 @@ public class Measurement {
 
     public int getWindDirection() {
         return _windDirection;
+    }
+
+    public void setStation(int station) {
+        _station = station;
+    }
+
+    public void setDate(Date date) {
+        _date = date;
+    }
+
+    public void setTime(Date time) {
+        _time = time;
+    }
+
+    public void setTemperature(float temperature) {
+        _temperature = temperature;
+    }
+
+    public void setDewPoint(float dewPoint) {
+        _dewPoint = dewPoint;
+    }
+
+    public void setStationPressure(float stationPressure) {
+        _stationPressure = stationPressure;
+    }
+
+    public void setSeaLevelPressure(float seaLevelPressure) {
+        _seaLevelPressure = seaLevelPressure;
+    }
+
+    public void setVsibility(float visibility) {
+        _visibility = visibility;
+    }
+
+    public void setWindSpeed(float windSpeed) {
+        _windSpeed = windSpeed;
+    }
+
+    public void setPrecipitation(float precipitation) {
+        _precipitation = precipitation;
+    }
+
+    public void setFallenSnow(float fallenSnow) {
+        _fallenSnow = fallenSnow;
+    }
+
+    public void setFlags(String flags) {
+        _flags = flags;
+    }
+
+    public void setClouds(float clouds) {
+        _clouds = clouds;
+    }
+
+    public void setWindDirection(int windDirection) {
+        _windDirection = windDirection;
     }
 }
