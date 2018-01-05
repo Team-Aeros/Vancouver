@@ -19,6 +19,7 @@ import java.net.ServerSocket;
 
 public class Main {
 
+    public static final String DB_PREFIX = "van_";
     private static final int DEFAULT_PORT = 2000;
     private static final int MAX_PORT_VALUE = 65535;
 

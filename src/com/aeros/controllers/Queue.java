@@ -21,7 +21,7 @@ public class Queue<T> implements Runnable {
 
         if (_queueItems.size() >= QUEUE_SIZE) {
             prepareToEnterWorkingQueue();
-            List<T> items = _queueItems.subList(0, QUEUE_SIZE - 1);
+            List<T> items = _queueItems.subList(0, QUEUE_SIZE);
             _queueItems = new ArrayList<>();
 
             new Thread(new Runnable() {

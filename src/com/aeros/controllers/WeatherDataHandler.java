@@ -16,6 +16,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class WeatherDataHandler extends DefaultHandler {
@@ -31,7 +33,20 @@ public class WeatherDataHandler extends DefaultHandler {
 
     private static Queue<String> _queue;
 
+    private static final String DATE_FORMAT = "YYYY-MM-DD";
+    private static final String TIME_FORMAT = "HH:MM:SS";
+
     private Operations _currentOperation = Operations.NONE;
+
+    private SimpleDateFormat dateFormat;
+    private SimpleDateFormat timeFormat;
+
+    public WeatherDataHandler() {
+        super();
+
+        dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        timeFormat = new SimpleDateFormat(TIME_FORMAT);
+    }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -92,38 +107,67 @@ public class WeatherDataHandler extends DefaultHandler {
 
     @Override
     public void characters(char[] characters, int start, int length) {
-        switch (_currentOperation) {
-            case MEASUREMENT:
-                addToQueue();
-                break;
-            case STATION:
-                //_measurement.setStation(new String(characters, start, length));
-                break;
-            case DATE:
-                //_measurement.setDate();
-                break;
-            case TIME:
-                //_measurement.setTime();
-                break;
-            case TEMPERATURE:
-            case DEWPOINT:
-            case STATION_PRESSURE:
-            case SEA_LEVEL_PRESSURE:
-            case VISIBILITY:
-            case WIND_SPEED:
-            case PRECIPITATION:
-            case FALLEN_SNOW:
-            case FLAGS:
-                _measurement.setFlags(new String(characters, start, length));
-                break;
-            case CLOUDS:
-            case WIND_DIRECTION:
+        String value = new String(characters, start, length);
+
+        try {
+            switch (_currentOperation) {
+                case MEASUREMENT:
+                    addToQueue();
+                    break;
+                case STATION:
+                    _measurement.setStation(Integer.parseInt(value));
+                    break;
+                case DATE:
+                    _measurement.setDate(dateFormat.parse(value));
+                    break;
+                case TIME:
+                    _measurement.setTime(dateFormat.parse(value));
+                    break;
+                case TEMPERATURE:
+                    _measurement.setTemperature(Float.parseFloat(value));
+                    break;
+                case DEWPOINT:
+                    _measurement.setDewPoint(Float.parseFloat(value));
+                    break;
+                case STATION_PRESSURE:
+                    _measurement.setStationPressure(Float.parseFloat(value));
+                    break;
+                case SEA_LEVEL_PRESSURE:
+                    _measurement.setSeaLevelPressure(Float.parseFloat(value));
+                    break;
+                case VISIBILITY:
+                    _measurement.setVsibility(Float.parseFloat(value));
+                    break;
+                case WIND_SPEED:
+                    _measurement.setWindSpeed(Float.parseFloat(value));
+                    break;
+                case PRECIPITATION:
+                    _measurement.setPrecipitation(Float.parseFloat(value));
+                    break;
+                case FALLEN_SNOW:
+                    _measurement.setFallenSnow(Float.parseFloat(value));
+                    break;
+                case FLAGS:
+                    _measurement.setFlags(value);
+                    break;
+                case CLOUDS:
+                    _measurement.setClouds(Float.parseFloat(value));
+                    break;
+                case WIND_DIRECTION:
+                    _measurement.setWindDirection(Integer.parseInt(value));
+            }
+        }
+        catch (NumberFormatException e) {
+            Util.throwError("Could not convert value to integer/float", e.getMessage());
+        }
+        catch (ParseException e) {
+            Util.throwError("Could not parse date/time", e.getMessage());
         }
     }
 
     private void addToQueue() {
-        //_queue.addItem("INSERT INTO %s");
-        _queue.addItem("test");
+        //_queue.addItem(String.format("INSERT INTO %s", Main.DB_PREFIX));
+        _queue.addItem("Test");
     }
 
     public List<Measurement> getMeasurements() {
