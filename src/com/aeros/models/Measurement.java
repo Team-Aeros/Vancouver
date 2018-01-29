@@ -15,8 +15,8 @@ import java.util.Date;
 public class Measurement {
 
     private int _station;
-    private Date _date;
-    private Date _time;
+    private String _date;
+    private String _time;
     private float _temperature;
     private float _dewPoint;
 
@@ -36,11 +36,11 @@ public class Measurement {
         return _station;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return _date;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return _time;
     }
 
@@ -72,7 +72,7 @@ public class Measurement {
         return _precipitation;
     }
 
-    public float getfallenSnow() {
+    public float getFallenSnow() {
         return _fallenSnow;
     }
 
@@ -92,11 +92,11 @@ public class Measurement {
         _station = station;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         _date = date;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         _time = time;
     }
 
@@ -116,7 +116,7 @@ public class Measurement {
         _seaLevelPressure = seaLevelPressure;
     }
 
-    public void setVsibility(float visibility) {
+    public void setVisibility(float visibility) {
         _visibility = visibility;
     }
 

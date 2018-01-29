@@ -1,7 +1,7 @@
 /*
  * Vancouver
  *
- * @version     1.0 Alpha 1
+ * @version     2.0 Alpha 1
  * @author      Aeros Development
  * @copyright   2017, Vancouver
  *
@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class LogEntry {
 
-    private static final String MAIN_LOG_LOCATION = "/home/robert/Vancouver/logs/main.log";
+    private static final String MAIN_LOG_LOCATION = "/home/mglazenborg/Documents/vancouver/logs/main.log";
 
     public enum LogType {
         MAIN

@@ -1,7 +1,7 @@
 /*
  * Vancouver
  *
- * @version     1.0 Alpha 1
+ * @version     2.0 Alpha 1
  * @author      Aeros Development
  * @copyright   2017, Vancouver
  *
@@ -11,23 +11,28 @@
 package com.aeros.controllers;
 
 import com.aeros.main.Util;
-import com.aeros.models.WeatherStationInfo;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.StreamCorruptedException;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class Connection implements Runnable {
 
     private DataInputStream _inputStream;
+    private Queue _queue;
+    private String _input;
+    private String _oldInput = "";
 
     private volatile byte[] _buffer;
 
-    public Connection(Socket socket) {
-        Util.printStatus("Started new thread");
+    public Connection(Socket socket, Queue queue) {
+        //Util.printStatus("Started connection Thread");
 
         try {
             _inputStream = new DataInputStream(socket.getInputStream());
+            _queue = queue;
         }
 
         catch (IOException e) {
@@ -36,21 +41,27 @@ public class Connection implements Runnable {
     }
 
     public void run() {
-        Util.printStatus("Entering run() method");
+        //Util.printStatus("Entering Connection run() method");
 
-        int length;
+        Integer length;
+
 
         while (true) {
             try {
-                if ((length = _inputStream.available()) != -1) {
+                length = _inputStream.available();
+                if (length != -1) {
                     _buffer = new byte[length];
                     _inputStream.readFully(_buffer);
 
                     if (_buffer.length != 0)
-                        new WeatherStationInfo(_buffer).parse();
+                        _input = new String(_buffer, StandardCharsets.UTF_8);
+                        if (_input != null && _oldInput != _input) {
+                            new Parser(_input).parse();
+                            //_queue.addItem(_input);
+                            _oldInput = _input;
+                        }
                 }
                 else {
-                    _inputStream.close();
                     return;
                 }
             }
@@ -59,6 +70,8 @@ public class Connection implements Runnable {
                 Util.throwError("Could not read object", e.getMessage());
                 return;
             }
+
+
         }
     }
 }

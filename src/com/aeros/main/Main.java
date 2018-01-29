@@ -1,7 +1,7 @@
 /*
  * Vancouver
  *
- * @version     1.0 Alpha 1
+ * @version     2.0 Alpha 1
  * @author      Aeros Development
  * @copyright   2017, Vancouver
  *
@@ -11,38 +11,37 @@
 package com.aeros.main;
 
 import com.aeros.controllers.Connection;
+import com.aeros.controllers.Parser;
 import com.aeros.controllers.Queue;
-import com.aeros.controllers.WeatherDataHandler;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 
-    public static final String DB_PREFIX = "van_";
-    private static final int DEFAULT_PORT = 2000;
-    private static final int MAX_PORT_VALUE = 65535;
+    private static final int PORT = 53200;
 
     public static void main(String[] args) {
         ServerSocket serverSocket = null;
+        Queue _queue = new Queue();
+        int num = 0;
 
-        Thread queueThread;
-        Queue<String> queue = new Queue<>();
-
-        System.out.println(":: Vancouver - Epic Server Software");
-
-        if (args.length > 2) {
-            Util.throwError("Invalid number of arguments");
-            return;
-        }
+        System.out.println(":: Vancouver - Weather Data Parser Software");
 
         try {
-            int port = args.length == 2 ? Integer.parseInt(args[1]) : DEFAULT_PORT;
-
-            if (port < 0 || port > MAX_PORT_VALUE)
+            if (PORT < 0 || PORT > 65535)
                 throw new NumberFormatException("Invalid port number");
 
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(PORT);
+            System.out.println("Connection opened on port: " + PORT);
         }
 
         catch (NumberFormatException | IOException e) {
@@ -50,15 +49,12 @@ public class Main {
             return;
         }
 
-        queueThread = new Thread(queue);
-        queueThread.start();
-
-        // Yes. This is bad. I know. Sorry.
-        WeatherDataHandler.setQueue(queue);
-
-        while (true) {
+        while (num < 800) {
             try {
-                new Thread(new Connection(serverSocket.accept())).start();
+                Socket socket = serverSocket.accept();
+                new Thread(new Connection(socket, _queue)).start();
+                System.out.println("Started thread number: " + num);
+                num++;
             }
 
             catch (IOException e) {
@@ -67,4 +63,5 @@ public class Main {
             }
         }
     }
+
 }

@@ -1,55 +1,42 @@
+/*
+ * Vancouver
+ *
+ * @version     2.0 Alpha 1
+ * @author      Aeros Development
+ * @copyright   2017, Vancouver
+ *
+ * @license     Apache 2.0
+ */
+
 package com.aeros.controllers;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Queue<T> implements Runnable {
-
-    private ArrayList<T> _queueItems;
-
-    private boolean _inWorkingQueue;
-
-    private static final int QUEUE_SIZE = 5;
+public class Queue<T> {
+    private ArrayList<String> _queueItems;
 
     public Queue() {
         _queueItems = new ArrayList<>();
-        _inWorkingQueue = false;
     }
 
-    public synchronized void addItem(T item) {
-        System.out.println("Method addItem() invoked");
-
-        if (_queueItems.size() >= QUEUE_SIZE) {
-            prepareToEnterWorkingQueue();
-            List<T> items = _queueItems.subList(0, QUEUE_SIZE);
-            _queueItems = new ArrayList<>();
-
-            new Thread(new Runnable() {
-                public synchronized void run() {
-                    ArrayList<T> workingQueue = new ArrayList<>(items);
-
-                    for (T queueItem : workingQueue) {
-                        System.out.println("I'm doing something");
-                    }
-
-                    setInWorkingQueue(false);
-                }
-            }).start();
-        }
-
+    public void addItem(String item) {
         _queueItems.add(item);
     }
 
-    private synchronized void setInWorkingQueue(boolean value) {
-        _inWorkingQueue = value;
+    public String getItem(int num) {
+        try {
+            return _queueItems.get(num);
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
-    private synchronized void prepareToEnterWorkingQueue() {
-        while (_inWorkingQueue);
-        setInWorkingQueue(true);
+    public void printQueue() {
+        System.out.println(_queueItems);
     }
 
-    public void run() {
-        // This is a really cool comment
+    public int getSize() {
+        return _queueItems.size();
     }
 }
