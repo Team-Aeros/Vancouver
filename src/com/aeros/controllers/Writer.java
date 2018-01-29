@@ -78,7 +78,7 @@ public class Writer {
                                                 "       \"tornado\"" + ":" + "\"" + _tornado + "\"",
                                                 "   \"}\"" + ",",
                                                 "   \"clouds\"" + ":" + _measurement.getClouds() + ",",
-                                                "   \"wind_direction\"" + ":" + _measurement.getWindDirection() + ",",
+                                                "   \"wind_direction\"" + ":" + _measurement.getWindDirection(),
                                                 "}");
 
             Path file = Paths.get("/mnt/" + _measurement.getStation() + "/" + _measurement.getDate() + "/" + _measurement.getTime().replace(":" , "-") + ".json");
@@ -87,7 +87,8 @@ public class Writer {
             Files.write(file, lines, Charset.forName("UTF-8"));
         }
         catch (IOException e) {
-            //Util.throwError("Error: ", e.getMessage());
+            Util.throwError("Unable to accept request", e.getMessage());
+            return;
         }
     }
 }
