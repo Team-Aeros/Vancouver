@@ -12,19 +12,15 @@ package com.aeros.controllers;
 
 import com.aeros.main.Util;
 import com.aeros.models.Measurement;
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
 
     private BufferedReader _bufferedReader;
-    private volatile String _buffer;
-    private int num = 0;
 
     public Parser(BufferedReader bufferedReader) {
         _bufferedReader = bufferedReader;

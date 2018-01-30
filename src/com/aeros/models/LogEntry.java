@@ -24,7 +24,7 @@ public class LogEntry {
         MAIN
     }
 
-    public static void create(String message, LogType type) {
+    public synchronized static void create(String message, LogType type) {
         BufferedWriter bufferedWriter;
         String fileLocation;
 
@@ -50,7 +50,7 @@ public class LogEntry {
         }
     }
 
-    public static void create(String message) {
+    public synchronized static void create(String message) {
         create(message, LogType.MAIN);
     }
 }

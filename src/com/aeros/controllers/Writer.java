@@ -14,8 +14,6 @@ import java.util.List;
 public class Writer {
 
     private Measurement _measurement;
-    private String _flags;
-    private int num;
 
     private String _freeze;
     private String _rain;
@@ -32,9 +30,9 @@ public class Writer {
 
     public void write() {
         try {
-            _flags = _measurement.getFlags();
+            String _flags = _measurement.getFlags();
 
-            for (num = 0; num < 6; num++) {
+            for (int num = 0; num < 6; num++) {
                 String state = _flags.substring(num,num+1);
 
                 switch (num) {

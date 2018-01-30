@@ -4,13 +4,11 @@
  * @version     1.0 Alpha 1
  * @author      Aeros Development
  * @copyright   2017, Vancouver
- *
+ *s
  * @license     Apache 2.0
  */
 
 package com.aeros.models;
-
-import java.util.Date;
 
 public class Measurement {
 
