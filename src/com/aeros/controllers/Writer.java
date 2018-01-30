@@ -78,7 +78,7 @@ public class Writer {
                                                 "       \"hailed\"" + ":" + "\"" + _hail + "\"" + ",",
                                                 "       \"thunder\"" + ":" + "\"" + _thunder + "\"" + ",",
                                                 "       \"tornado\"" + ":" + "\"" + _tornado + "\"",
-                                                "   \"}\"" + ",",
+                                                "   },",
                                                 "   \"clouds\"" + ":" + _measurement.getClouds() + ",",
                                                 "   \"wind_direction\"" + ":" + _measurement.getWindDirection(),
                                                 "}");
@@ -90,6 +90,7 @@ public class Writer {
         }
         catch (IOException e) {
             Util.throwError("Unable to accept request", e.getMessage());
+            e.printStackTrace();
             return;
         }
     }

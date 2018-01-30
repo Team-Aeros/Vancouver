@@ -16,13 +16,13 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
+
 
 public class Connection implements Runnable {
 
-    private DataInputStream _inputStream;
+    private BufferedReader _bufferedReader;
+    private InputStream _inputStream;
     private String _input;
     private String _oldInput = "";
 
@@ -34,7 +34,8 @@ public class Connection implements Runnable {
         //Util.printStatus("Started connection Thread");
 
         try {
-            _inputStream = new DataInputStream(socket.getInputStream());
+            _inputStream = socket.getInputStream();
+            _bufferedReader = new BufferedReader(new InputStreamReader(_inputStream));
         }
 
         catch (IOException e) {
@@ -46,33 +47,22 @@ public class Connection implements Runnable {
         //Util.printStatus("Entering Connection run() method");
 
         Integer length;
+        String line;
 
         while (true) {
             try {
                 length = _inputStream.available();
                 if (length != -1) {
-                    _buffer = new byte[length];
-                    _inputStream.readFully(_buffer);
-
-                    if (_buffer.length != 0) {
-                        _input = new String(_buffer, StandardCharsets.UTF_8);
-                        if (_input != null && !_oldInput.equals(_input)) {
-                            new Parser(_input).parse();
-                            _oldInput = _input;
-                        }
-                    }
+                    new Parser(_bufferedReader).parse();
                 }
-                else {
+                else
                     return;
-                }
             }
 
             catch (IOException e) {
                 Util.throwError("Could not read object", e.getMessage());
                 return;
             }
-
-
         }
     }
 }
