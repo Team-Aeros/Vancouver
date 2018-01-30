@@ -24,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 public class Parser {
 
     private String _data;
-    private String _buffer;
+    private volatile String _buffer;
     private int num = 0;
 
     public Parser(String data) {
@@ -50,6 +50,7 @@ public class Parser {
                     SAXParser saxParser = saxParserFactory.newSAXParser();
                     WeatherDataHandler weatherDataHandler = new WeatherDataHandler();
                     saxParser.parse(new InputSource(new StringReader(_data)), weatherDataHandler);
+                    return;
                 } catch (ParserConfigurationException | IOException | SAXException e) {
                     Util.throwError("Could not parse XML data", e.getMessage());
                 }

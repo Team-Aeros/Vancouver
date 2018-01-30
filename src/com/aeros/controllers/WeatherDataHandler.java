@@ -149,9 +149,11 @@ public class WeatherDataHandler extends DefaultHandler {
                         new Writer(_measurement).write();
                 }
             } catch (NumberFormatException e) {
-                //Util.throwError("Could not convert value to integer/float", e.getMessage());
+                Util.throwError("Could not convert value to integer/float", e.getMessage());
+                e.printStackTrace();
             } catch (Exception e) {
-                //Util.throwError("Could not parse date/time", e.getMessage());
+                Util.throwError("Could not parse date/time", e.getMessage());
+                e.printStackTrace();
             }
         }
     }

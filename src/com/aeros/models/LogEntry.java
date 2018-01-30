@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class LogEntry {
 
-    private static final String MAIN_LOG_LOCATION = "/home/mglazenborg/Documents/vancouver/logs/main.log";
+    private static final String MAIN_LOG_LOCATION = "/home/robert/Vancouver/logs/main.log";
 
     public enum LogType {
         MAIN
@@ -45,7 +45,7 @@ public class LogEntry {
         }
 
         catch (IOException e) {
-            System.out.println("Could not open log file");
+            System.out.println("Could not open log file: " + e.getMessage());
             return;
         }
     }

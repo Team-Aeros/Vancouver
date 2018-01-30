@@ -51,31 +51,13 @@ public class Connection implements Runnable {
             try {
                 length = _inputStream.available();
                 if (length != -1) {
-                    // @todo Test if setting the buffer size to 0xFA0 helps
                     _buffer = new byte[length];
                     _inputStream.readFully(_buffer);
 
                     if (_buffer.length != 0) {
                         _input = new String(_buffer, StandardCharsets.UTF_8);
                         if (_input != null && !_oldInput.equals(_input)) {
-                            try {
-                                String filename = "/srv/http/vancouver/" + _tempId++ + ".txt";
-                                File file = new File(filename);
-                                if (!file.exists())
-                                    file.createNewFile();
-
-                                FileWriter fileWriter = new FileWriter(filename, true);
-                                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                                bufferedWriter.write(_input);
-                                bufferedWriter.close();
-                            }
-
-                            catch (IOException e) {
-                                System.out.println("Something went wrong: ");
-                                e.printStackTrace();
-                                System.exit(0xFF);
-                            }
-                            //new Parser(_input).parse();
+                            new Parser(_input).parse();
                             _oldInput = _input;
                         }
                     }
