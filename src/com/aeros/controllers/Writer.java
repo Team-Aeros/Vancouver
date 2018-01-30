@@ -24,6 +24,8 @@ public class Writer {
     private String _thunder;
     private String _tornado;
 
+    private static final String SAVE_LOCATION = "/srv/http/vancouver";
+
     public Writer(Measurement measurement) {
         _measurement = measurement;
     }
@@ -81,7 +83,7 @@ public class Writer {
                                                 "   \"wind_direction\"" + ":" + _measurement.getWindDirection(),
                                                 "}");
 
-            Path file = Paths.get("/mnt/" + _measurement.getStation() + "/" + _measurement.getDate() + "/" + _measurement.getTime().replace(":" , "-") + ".json");
+            Path file = Paths.get(SAVE_LOCATION + "/" + _measurement.getStation() + "/" + _measurement.getDate() + "/" + _measurement.getTime().replace(":" , "-") + ".json");
             Files.createDirectories(file.getParent());
             Files.createFile(file);
             Files.write(file, lines, Charset.forName("UTF-8"));

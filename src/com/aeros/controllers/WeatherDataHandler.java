@@ -90,7 +90,7 @@ public class WeatherDataHandler extends DefaultHandler {
                 _currentOperation = Operations.WIND_DIRECTION;
                 break;
             default:
-                //Util.printStatus(String.format("Unknown element: %s", qName));
+                Util.printStatus(String.format("Unknown element: %s", qName));
         }
     }
 

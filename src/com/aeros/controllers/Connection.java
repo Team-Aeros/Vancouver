@@ -12,27 +12,29 @@ package com.aeros.controllers;
 
 import com.aeros.main.Util;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.StreamCorruptedException;
+import java.io.*;
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Connection implements Runnable {
 
     private DataInputStream _inputStream;
-    private Queue _queue;
     private String _input;
     private String _oldInput = "";
 
+    private int _tempId = 0;
+
     private volatile byte[] _buffer;
 
-    public Connection(Socket socket, Queue queue) {
+    public Connection(Socket socket) {
         //Util.printStatus("Started connection Thread");
 
         try {
             _inputStream = new DataInputStream(socket.getInputStream());
-            _queue = queue;
         }
 
         catch (IOException e) {
@@ -45,21 +47,38 @@ public class Connection implements Runnable {
 
         Integer length;
 
-
         while (true) {
             try {
                 length = _inputStream.available();
                 if (length != -1) {
+                    // @todo Test if setting the buffer size to 0xFA0 helps
                     _buffer = new byte[length];
                     _inputStream.readFully(_buffer);
 
-                    if (_buffer.length != 0)
+                    if (_buffer.length != 0) {
                         _input = new String(_buffer, StandardCharsets.UTF_8);
-                        if (_input != null && _oldInput != _input) {
-                            new Parser(_input).parse();
-                            //_queue.addItem(_input);
+                        if (_input != null && !_oldInput.equals(_input)) {
+                            try {
+                                String filename = "/srv/http/vancouver/" + _tempId++ + ".txt";
+                                File file = new File(filename);
+                                if (!file.exists())
+                                    file.createNewFile();
+
+                                FileWriter fileWriter = new FileWriter(filename, true);
+                                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                                bufferedWriter.write(_input);
+                                bufferedWriter.close();
+                            }
+
+                            catch (IOException e) {
+                                System.out.println("Something went wrong: ");
+                                e.printStackTrace();
+                                System.exit(0xFF);
+                            }
+                            //new Parser(_input).parse();
                             _oldInput = _input;
                         }
+                    }
                 }
                 else {
                     return;

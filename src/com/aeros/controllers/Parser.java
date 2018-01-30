@@ -51,7 +51,7 @@ public class Parser {
                     WeatherDataHandler weatherDataHandler = new WeatherDataHandler();
                     saxParser.parse(new InputSource(new StringReader(_data)), weatherDataHandler);
                 } catch (ParserConfigurationException | IOException | SAXException e) {
-                    //Util.throwError("Could not parse XML data", e.getMessage());
+                    Util.throwError("Could not parse XML data", e.getMessage());
                 }
             }
         }
