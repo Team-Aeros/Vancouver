@@ -14,8 +14,6 @@ import java.util.List;
 public class Writer {
 
     private Measurement _measurement;
-    private String _flags;
-    private int num;
 
     private String _freeze;
     private String _rain;
@@ -24,15 +22,17 @@ public class Writer {
     private String _thunder;
     private String _tornado;
 
+    private static final String SAVE_LOCATION = "/srv/http/vancouver";
+
     public Writer(Measurement measurement) {
         _measurement = measurement;
     }
 
     public void write() {
         try {
-            _flags = _measurement.getFlags();
+            String _flags = _measurement.getFlags();
 
-            for (num = 0; num < 6; num++) {
+            for (int num = 0; num < 6; num++) {
                 String state = _flags.substring(num,num+1);
 
                 switch (num) {
@@ -76,18 +76,19 @@ public class Writer {
                                                 "       \"hailed\"" + ":" + "\"" + _hail + "\"" + ",",
                                                 "       \"thunder\"" + ":" + "\"" + _thunder + "\"" + ",",
                                                 "       \"tornado\"" + ":" + "\"" + _tornado + "\"",
-                                                "   \"}\"" + ",",
+                                                "   },",
                                                 "   \"clouds\"" + ":" + _measurement.getClouds() + ",",
                                                 "   \"wind_direction\"" + ":" + _measurement.getWindDirection(),
                                                 "}");
 
-            Path file = Paths.get("/mnt/" + _measurement.getStation() + "/" + _measurement.getDate() + "/" + _measurement.getTime().replace(":" , "-") + ".json");
+            Path file = Paths.get(SAVE_LOCATION + "/" + _measurement.getStation() + "/" + _measurement.getDate() + "/" + _measurement.getTime().replace(":" , "-") + ".json");
             Files.createDirectories(file.getParent());
             Files.createFile(file);
             Files.write(file, lines, Charset.forName("UTF-8"));
         }
         catch (IOException e) {
             Util.throwError("Unable to accept request", e.getMessage());
+            e.printStackTrace();
             return;
         }
     }

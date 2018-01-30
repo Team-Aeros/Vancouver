@@ -4,13 +4,11 @@
  * @version     1.0 Alpha 1
  * @author      Aeros Development
  * @copyright   2017, Vancouver
- *
+ *s
  * @license     Apache 2.0
  */
 
 package com.aeros.models;
-
-import java.util.Date;
 
 public class Measurement {
 
@@ -34,6 +32,29 @@ public class Measurement {
 
     public int getStation() {
         return _station;
+    }
+
+    public boolean isValid() {
+        if (_station > 999999)
+            return false;
+        else if (_temperature < -9999.9 || _temperature > 9999.9)
+            return false;
+        else if (_dewPoint < -9999.9 || _dewPoint > 9999.9)
+            return false;
+        else if (_stationPressure < 0 || _stationPressure > 9999.9)
+            return false;
+        else if (_seaLevelPressure < 0 || _seaLevelPressure > 9999.9)
+            return false;
+        else if (_visibility < 0 || _visibility > 999.9)
+            return false;
+        else if (_windSpeed < 0 || _windSpeed > 999.9)
+            return false;
+        else if (_precipitation < 0 || _precipitation > 999.9)
+            return false;
+        else if (_fallenSnow < -9999.9 || _fallenSnow > 9999.9)
+            return false;
+
+        return true;
     }
 
     public String getDate() {
