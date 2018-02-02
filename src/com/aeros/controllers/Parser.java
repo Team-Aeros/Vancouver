@@ -61,7 +61,7 @@ public class Parser {
                         else {
                             matcher = pattern.matcher(measurementLine);
 
-                            if (matcher.find()) {
+                            if (matcher.find() && matcher.group(1).equalsIgnoreCase(matcher.group(3))) {
                                 try {
                                     switch (matcher.group(1).toLowerCase()) {
                                         case "stn":

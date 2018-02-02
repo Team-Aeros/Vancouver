@@ -20,16 +20,8 @@ public class Connection implements Runnable {
 
     private BufferedReader _bufferedReader;
     private InputStream _inputStream;
-    private String _input;
-    private String _oldInput = "";
-
-    private int _tempId = 0;
-
-    private volatile byte[] _buffer;
 
     public Connection(Socket socket) {
-        //Util.printStatus("Started connection Thread");
-
         try {
             _inputStream = socket.getInputStream();
             _bufferedReader = new BufferedReader(new InputStreamReader(_inputStream));
@@ -41,10 +33,7 @@ public class Connection implements Runnable {
     }
 
     public void run() {
-        //Util.printStatus("Entering Connection run() method");
-
         Integer length;
-        String line;
 
         while (true) {
             try {

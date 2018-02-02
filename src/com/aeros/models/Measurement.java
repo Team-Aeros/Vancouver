@@ -30,10 +30,6 @@ public class Measurement {
     private float _clouds;
     private int _windDirection;
 
-    public int getStation() {
-        return _station;
-    }
-
     public boolean isValid() {
         if (_station > 999999)
             return false;
@@ -55,6 +51,10 @@ public class Measurement {
             return false;
 
         return true;
+    }
+
+    public int getStation() {
+        return _station;
     }
 
     public String getDate() {
