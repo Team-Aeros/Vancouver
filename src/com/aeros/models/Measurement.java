@@ -31,7 +31,7 @@ public class Measurement {
     private float _visibility;
     private float _windSpeed;
     private float _precipitation;
-    private float _fallenSnow;
+    private float _snowfall;
 
     private String _flags;
     private float _clouds;
@@ -45,7 +45,7 @@ public class Measurement {
     }
 
     public boolean isValid() {
-        return _station < 999999 && _station != 0;
+        return _station < 999999 && _station != 0 && !_isCorrupt;
     }
 
     private float withOneDecimal(float value) {
@@ -90,7 +90,7 @@ public class Measurement {
             averageVisibility += measurement.getVisibility();
             averageWindSpeed += measurement.getWindSpeed();
             averagePrecipitation += measurement.getPrecipitation();
-            averageSnowFall += measurement.getFallenSnow();
+            averageSnowFall += measurement.getSnowfall();
 
             readings++;
         }
@@ -125,8 +125,8 @@ public class Measurement {
         if (_precipitation < 0.8 * averagePrecipitation || _precipitation > 1.2 * averagePrecipitation || _precipitation < 0 || _precipitation > 999.9)
             _precipitation = averagePrecipitation;
 
-        if (_fallenSnow < 0.8 * averageSnowFall || _fallenSnow > 1.2 * averageSnowFall || _fallenSnow < -9999.9 || _fallenSnow > 9999.9)
-            _fallenSnow = averageSnowFall;
+        if (_snowfall < 0.8 * averageSnowFall || _snowfall > 1.2 * averageSnowFall || _snowfall < -9999.9 || _snowfall > 9999.9)
+            _snowfall = averageSnowFall;
 
         if (_flags.length() != 6)
             _flags = measurements[0] != null ? measurements[0].getFlags() : "000000";
@@ -172,8 +172,8 @@ public class Measurement {
         return _precipitation;
     }
 
-    public float getFallenSnow() {
-        return _fallenSnow;
+    public float getSnowfall() {
+        return _snowfall;
     }
 
     public String getFlags() {
@@ -228,8 +228,8 @@ public class Measurement {
         _precipitation = withOneDecimal(precipitation);
     }
 
-    public void setFallenSnow(float fallenSnow) {
-        _fallenSnow = withOneDecimal(fallenSnow);
+    public void setSnowfall(float snowfall) {
+        _snowfall = withOneDecimal(snowfall);
     }
 
     public void setFlags(String flags) {

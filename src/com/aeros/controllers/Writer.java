@@ -68,7 +68,7 @@ public class Writer {
                 "   \"visibility\"" + ":" + _measurement.getVisibility() + ",",
                 "   \"wind_speed\"" + ":" + _measurement.getWindSpeed() + ",",
                 "   \"precipitation\"" + ":" + _measurement.getPrecipitation() + ",",
-                "   \"snowfall\"" + ":" + _measurement.getFallenSnow() + ",",
+                "   \"snowfall\"" + ":" + _measurement.getSnowfall() + ",",
                 "   \"flags\"" + ":" + "{",
                 "       \"froze\"" + ":" + "\"" + _freeze + "\"" + ",",
                 "       \"rained\"" + ":" + "\"" + _rain + "\"" + ",",

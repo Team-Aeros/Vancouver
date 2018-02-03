@@ -143,7 +143,7 @@ public class Parser {
                                             measurement.setPrecipitation(Float.parseFloat(match));
                                             break;
                                         case "sndp":
-                                            measurement.setFallenSnow(Float.parseFloat(match));
+                                            measurement.setSnowfall(Float.parseFloat(match));
                                             break;
                                         case "frshtt":
                                             measurement.setFlags(match);
