@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class LogEntry {
 
-    private static final String MAIN_LOG_LOCATION = "/home/robert/Vancouver/logs/main.log";
+    private static String MAIN_LOG_LOCATION;
 
     public enum LogType {
         MAIN
@@ -52,5 +52,16 @@ public class LogEntry {
 
     public synchronized static void create(String message) {
         create(message, LogType.MAIN);
+    }
+
+    public static void setPaths() {
+        try {
+            MAIN_LOG_LOCATION = LogEntry.class.getClassLoader().getResource("./logs/main.log").getPath();
+        }
+
+        catch (NullPointerException e) {
+            System.out.println("Could not find log file");
+            System.exit(-1);
+        }
     }
 }

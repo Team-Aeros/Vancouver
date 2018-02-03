@@ -22,7 +22,7 @@ public class Writer {
     private String _thunder;
     private String _tornado;
 
-    private static final String SAVE_LOCATION = "/srv/http/vancouver";
+    private static final String SAVE_LOCATION = "/var/www/html/webdav"; // Replace this if your webdav map isn't located here
 
     public Writer(Measurement measurement) {
         _measurement = measurement;
