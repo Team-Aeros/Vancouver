@@ -58,35 +58,35 @@ public class Writer {
             }
 
             List<String> lines = Arrays.asList( "{",
-                                                "   \"station\"" + ":" + _measurement.getStation() + ",",
-                                                "   \"date\"" + ":" + "\"" + _measurement.getDate() + "\"" + ",",
-                                                "   \"time\"" + ":" + "\"" + _measurement.getTime() + "\"" + ",",
-                                                "   \"temperature\"" + ":" + _measurement.getTemperature() + ",",
-                                                "   \"dew_point\"" + ":" + _measurement.getDewPoint() + ",",
-                                                "   \"station_pressure\"" + ":" + _measurement.getStationPressure() + ",",
-                                                "   \"sea_level_pressure\"" + ":" + _measurement.getSeaLevelPressure() + ",",
-                                                "   \"visibility\"" + ":" + _measurement.getVisibility() + ",",
-                                                "   \"wind_speed\"" + ":" + _measurement.getWindSpeed() + ",",
-                                                "   \"precipitation\"" + ":" + _measurement.getPrecipitation() + ",",
-                                                "   \"snowfall\"" + ":" + _measurement.getFallenSnow() + ",",
-                                                "   \"flags\"" + ":" + "{",
-                                                "       \"froze\"" + ":" + "\"" + _freeze + "\"" + ",",
-                                                "       \"rained\"" + ":" + "\"" + _rain + "\"" + ",",
-                                                "       \"snowed\"" + ":" + "\"" + _snow + "\"" + ",",
-                                                "       \"hailed\"" + ":" + "\"" + _hail + "\"" + ",",
-                                                "       \"thunder\"" + ":" + "\"" + _thunder + "\"" + ",",
-                                                "       \"tornado\"" + ":" + "\"" + _tornado + "\"",
-                                                "   },",
-                                                "   \"clouds\"" + ":" + _measurement.getClouds() + ",",
-                                                "   \"wind_direction\"" + ":" + _measurement.getWindDirection(),
-                                                "}");
+                "   \"station\"" + ":" + _measurement.getStation() + ",",
+                "   \"date\"" + ":" + "\"" + _measurement.getDate() + "\"" + ",",
+                "   \"time\"" + ":" + "\"" + _measurement.getTime() + "\"" + ",",
+                "   \"temperature\"" + ":" + _measurement.getTemperature() + ",",
+                "   \"dew_point\"" + ":" + _measurement.getDewPoint() + ",",
+                "   \"station_pressure\"" + ":" + _measurement.getStationPressure() + ",",
+                "   \"sea_level_pressure\"" + ":" + _measurement.getSeaLevelPressure() + ",",
+                "   \"visibility\"" + ":" + _measurement.getVisibility() + ",",
+                "   \"wind_speed\"" + ":" + _measurement.getWindSpeed() + ",",
+                "   \"precipitation\"" + ":" + _measurement.getPrecipitation() + ",",
+                "   \"snowfall\"" + ":" + _measurement.getSnowfall() + ",",
+                "   \"flags\"" + ":" + "{",
+                "       \"froze\"" + ":" + "\"" + _freeze + "\"" + ",",
+                "       \"rained\"" + ":" + "\"" + _rain + "\"" + ",",
+                "       \"snowed\"" + ":" + "\"" + _snow + "\"" + ",",
+                "       \"hailed\"" + ":" + "\"" + _hail + "\"" + ",",
+                "       \"thunder\"" + ":" + "\"" + _thunder + "\"" + ",",
+                "       \"tornado\"" + ":" + "\"" + _tornado + "\"",
+                "   },",
+                "   \"clouds\"" + ":" + _measurement.getClouds() + ",",
+                "   \"wind_direction\"" + ":" + _measurement.getWindDirection(),
+                "}");
 
             Path file = Paths.get(SAVE_LOCATION + "/" + _measurement.getStation() + "/" + _measurement.getDate() + "/" + _measurement.getTime().replace(":" , "-") + ".json");
             Files.createDirectories(file.getParent());
             Files.createFile(file);
             Files.write(file, lines, Charset.forName("UTF-8"));
         }
-        catch (IOException e) {
+        catch (IOException | StringIndexOutOfBoundsException e) {
             Util.throwError("Unable to accept request", e.getMessage());
             e.printStackTrace();
             return;

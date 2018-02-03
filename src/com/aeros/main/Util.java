@@ -20,7 +20,7 @@ public abstract class Util {
     }
 
     public static void throwError(String message, String detailedError) {
-        System.out.printf("==> A fatal error occurred: %s\n%s", message, detailedError);
+        System.out.printf("==> A fatal error occurred: %s\n%s\n", message, detailedError);
         LogEntry.create(message);
     }
 
