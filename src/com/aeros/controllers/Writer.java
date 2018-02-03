@@ -86,7 +86,7 @@ public class Writer {
             Files.createFile(file);
             Files.write(file, lines, Charset.forName("UTF-8"));
         }
-        catch (IOException e) {
+        catch (IOException | StringIndexOutOfBoundsException e) {
             Util.throwError("Unable to accept request", e.getMessage());
             e.printStackTrace();
             return;

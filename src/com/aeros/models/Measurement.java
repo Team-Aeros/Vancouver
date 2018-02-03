@@ -10,7 +10,14 @@
 
 package com.aeros.models;
 
+import com.aeros.main.Util;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class Measurement {
+
+    private DecimalFormat _decimalFormat;
 
     private int _station;
     private String _date;
@@ -30,27 +37,99 @@ public class Measurement {
     private float _clouds;
     private int _windDirection;
 
-    public boolean isValid() {
-        if (_station > 999999)
-            return false;
-        else if (_temperature < -9999.9 || _temperature > 9999.9)
-            return false;
-        else if (_dewPoint < -9999.9 || _dewPoint > 9999.9)
-            return false;
-        else if (_stationPressure < 0 || _stationPressure > 9999.9)
-            return false;
-        else if (_seaLevelPressure < 0 || _seaLevelPressure > 9999.9)
-            return false;
-        else if (_visibility < 0 || _visibility > 999.9)
-            return false;
-        else if (_windSpeed < 0 || _windSpeed > 999.9)
-            return false;
-        else if (_precipitation < 0 || _precipitation > 999.9)
-            return false;
-        else if (_fallenSnow < -9999.9 || _fallenSnow > 9999.9)
-            return false;
+    private boolean _isCorrupt = false;
 
-        return true;
+    public Measurement() {
+        _decimalFormat = new DecimalFormat("#.#");
+        _decimalFormat.setRoundingMode(RoundingMode.CEILING);
+    }
+
+    public boolean isValid() {
+        return _station < 999999 && _station != 0;
+    }
+
+    private float withOneDecimal(float value) {
+        Float result = 0.0f;
+
+        try {
+            result = Float.parseFloat(_decimalFormat.format(value));
+        }
+
+        catch (NumberFormatException e) {
+            Util.throwError("Invalid number format.");
+            e.printStackTrace();
+            _isCorrupt = true;
+        }
+
+        return result;
+    }
+
+    public void checkAndFixReadings(Measurement[] measurements) {
+        float averageTemperature = 0;
+        float averageDewPoint = 0;
+        float averageStationPressure = 0;
+        float averageSeaLevelPressure = 0;
+        float averageVisibility = 0;
+        float averageWindSpeed = 0;
+        float averagePrecipitation = 0;
+        float averageSnowFall = 0;
+
+        int readings = 0;
+
+        if (measurements == null)
+            return;
+
+        for (Measurement measurement : measurements) {
+            if (measurement == null)
+                continue;
+
+            averageTemperature += measurement.getTemperature();
+            averageDewPoint += measurement.getDewPoint();
+            averageStationPressure += measurement.getStationPressure();
+            averageSeaLevelPressure += measurement.getSeaLevelPressure();
+            averageVisibility += measurement.getVisibility();
+            averageWindSpeed += measurement.getWindSpeed();
+            averagePrecipitation += measurement.getPrecipitation();
+            averageSnowFall += measurement.getFallenSnow();
+
+            readings++;
+        }
+
+        averageTemperature /= readings;
+        averageDewPoint /= readings;
+        averageStationPressure /= readings;
+        averageSeaLevelPressure /= readings;
+        averageVisibility /= readings;
+        averageWindSpeed /= readings;
+        averagePrecipitation /= readings;
+        averageSnowFall /= readings;
+
+        if (_temperature < 0.8 * averageTemperature || _temperature > 1.2 * averageTemperature || _temperature < -9999.9 || _temperature > 9999.9)
+            _temperature = averageTemperature;
+
+        if (_dewPoint < 0.8 * averageDewPoint || _dewPoint > 1.2 * averageDewPoint || _dewPoint < -9999.9 || _dewPoint > 9999.9)
+            _dewPoint = averageDewPoint;
+
+        if (_stationPressure < 0.8 * averageStationPressure || _stationPressure > 1.2 * averageStationPressure || _stationPressure < 0 || _stationPressure > 9999.9)
+            _stationPressure = averageStationPressure;
+
+        if (_seaLevelPressure < 0.8 * averageSeaLevelPressure || _seaLevelPressure > 1.2 * averageSeaLevelPressure || _seaLevelPressure < 0 || _seaLevelPressure > 9999.9)
+            _seaLevelPressure = averageSeaLevelPressure;
+
+        if (_visibility < 0.8 * averageVisibility || _visibility > 1.2 * averageVisibility || _visibility < 0 || _visibility > 999.9)
+            _visibility = averageVisibility;
+
+        if (_windSpeed < 0.8 * averageWindSpeed || _windSpeed > 1.2 * averageWindSpeed || _windSpeed < 0 || _windSpeed > 999.9)
+            _windSpeed = averageWindSpeed;
+
+        if (_precipitation < 0.8 * averagePrecipitation || _precipitation > 1.2 * averagePrecipitation || _precipitation < 0 || _precipitation > 999.9)
+            _precipitation = averagePrecipitation;
+
+        if (_fallenSnow < 0.8 * averageSnowFall || _fallenSnow > 1.2 * averageSnowFall || _fallenSnow < -9999.9 || _fallenSnow > 9999.9)
+            _fallenSnow = averageSnowFall;
+
+        if (_flags.length() != 6)
+            _flags = measurements[0] != null ? measurements[0].getFlags() : "000000";
     }
 
     public int getStation() {
@@ -122,35 +201,35 @@ public class Measurement {
     }
 
     public void setTemperature(float temperature) {
-        _temperature = temperature;
+        _temperature = withOneDecimal(temperature);
     }
 
     public void setDewPoint(float dewPoint) {
-        _dewPoint = dewPoint;
+        _dewPoint = withOneDecimal(dewPoint);
     }
 
     public void setStationPressure(float stationPressure) {
-        _stationPressure = stationPressure;
+        _stationPressure = withOneDecimal(stationPressure);
     }
 
     public void setSeaLevelPressure(float seaLevelPressure) {
-        _seaLevelPressure = seaLevelPressure;
+        _seaLevelPressure = withOneDecimal(seaLevelPressure);
     }
 
     public void setVisibility(float visibility) {
-        _visibility = visibility;
+        _visibility = withOneDecimal(visibility);
     }
 
     public void setWindSpeed(float windSpeed) {
-        _windSpeed = windSpeed;
+        _windSpeed = withOneDecimal(windSpeed);
     }
 
     public void setPrecipitation(float precipitation) {
-        _precipitation = precipitation;
+        _precipitation = withOneDecimal(precipitation);
     }
 
     public void setFallenSnow(float fallenSnow) {
-        _fallenSnow = fallenSnow;
+        _fallenSnow = withOneDecimal(fallenSnow);
     }
 
     public void setFlags(String flags) {
@@ -158,7 +237,7 @@ public class Measurement {
     }
 
     public void setClouds(float clouds) {
-        _clouds = clouds;
+        _clouds = withOneDecimal(clouds);
     }
 
     public void setWindDirection(int windDirection) {
