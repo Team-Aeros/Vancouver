@@ -11,6 +11,7 @@
 package com.aeros.main;
 
 import com.aeros.controllers.Connection;
+import com.aeros.models.LogEntry;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -25,6 +26,7 @@ public class Main {
         int num = 0;
 
         System.out.println(":: Vancouver - Weather Data Parser Software");
+        LogEntry.setPaths();
 
         try {
             if (PORT < 0 || PORT > 65535)
