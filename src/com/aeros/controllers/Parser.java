@@ -64,6 +64,7 @@ public class Parser {
 
                                 if (!_measurements.containsKey(stationId))
                                     addStation(stationId);
+
                                 measurement.checkAndFixReadings(_measurements.get(stationId));
 
                                 for (int i = 0; i < 4; i++) {

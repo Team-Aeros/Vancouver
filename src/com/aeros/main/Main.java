@@ -29,6 +29,7 @@ public class Main {
         LogEntry.setPaths();
 
         try {
+            // @todo This should be left in here if we ever decide to add a command line parameter for the port number
             if (PORT < 0 || PORT > 65535)
                 throw new NumberFormatException("Invalid port number");
 

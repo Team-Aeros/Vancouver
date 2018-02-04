@@ -46,7 +46,6 @@ public class LogEntry {
 
         catch (IOException e) {
             System.out.println("Could not open log file: " + e.getMessage());
-            return;
         }
     }
 
