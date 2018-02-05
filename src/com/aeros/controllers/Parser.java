@@ -23,13 +23,13 @@ public class Parser {
 
     private BufferedReader _bufferedReader;
 
-    private static HashMap<Integer, Measurement[]> _measurements = new HashMap<>();
+    private volatile static HashMap<Integer, Measurement[]> _measurements = new HashMap<>();
 
     public Parser(BufferedReader bufferedReader) {
         _bufferedReader = bufferedReader;
     }
 
-    public void parse() {
+    public void run() {
         Measurement measurement = new Measurement();
         String line;
         String easyLine;
@@ -45,13 +45,12 @@ public class Parser {
         boolean missingValue = false;
 
         String match;
-        String openingTag;
-        String closingTag;
 
         boolean foundMatch;
 
         try {
             while ((line = _bufferedReader.readLine()) != null) {
+                System.out.println(line);
                 easyLine = line.trim();
                 done = false;
 
@@ -64,8 +63,8 @@ public class Parser {
                                 stationId = measurement.getStation();
                                 emptySlotFound = false;
 
-                                if (!_measurements.containsKey(measurement.getStation()))
-                                    _measurements.put(stationId, new Measurement[5]);
+                                if (!_measurements.containsKey(stationId))
+                                    addStation(stationId);
 
                                 measurement.checkAndFixReadings(_measurements.get(stationId));
 
@@ -178,5 +177,9 @@ public class Parser {
         catch (IOException e) {
             System.out.println("An IOException occurred: " + e.getMessage());
         }
+    }
+
+    private synchronized static void addStation(int stationId) {
+        _measurements.put(stationId, new Measurement[5]);
     }
 }

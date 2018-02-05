@@ -39,7 +39,7 @@ public class Connection implements Runnable {
             try {
                 length = _inputStream.available();
                 if (length != -1) {
-                    new Parser(_bufferedReader).parse();
+                    new Parser(_bufferedReader).run();
                 }
                 else
                     return;

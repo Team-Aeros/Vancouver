@@ -11,51 +11,26 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-public class Writer {
+class Writer {
 
     private Measurement _measurement;
 
-    private String _freeze;
-    private String _rain;
-    private String _snow;
-    private String _hail;
-    private String _thunder;
-    private String _tornado;
+    private static final String SAVE_LOCATION = "/srv/http/vancouver"; // Replace this if your webdav map isn't located here
 
-    private static final String SAVE_LOCATION = "/var/www/html/webdav"; // Replace this if your webdav map isn't located here
-
-    public Writer(Measurement measurement) {
+    Writer(Measurement measurement) {
         _measurement = measurement;
     }
 
-    public void write() {
+    void write() {
         try {
             String _flags = _measurement.getFlags();
 
-            for (int num = 0; num < 6; num++) {
-                String state = _flags.substring(num,num+1);
-
-                switch (num) {
-                    case 0:
-                        _freeze = (state.equals("0")) ? "false" : "true";
-                        break;
-                    case 1:
-                        _rain = (state.equals("0")) ? "false" : "true";
-                        break;
-                    case 2:
-                        _snow = (state.equals("0")) ? "false" : "true";
-                        break;
-                    case 3:
-                        _hail = (state.equals("0")) ? "false" : "true";
-                        break;
-                    case 4:
-                        _thunder = (state.equals("0")) ? "false" : "true";
-                        break;
-                    case 5:
-                        _tornado = (state.equals("0")) ? "false" : "true";
-                        break;
-                }
-            }
+            String freeze = _flags.charAt(0) == '0' ? "false" : "true";
+            String rain = _flags.charAt(1) == '0' ? "false" : "true";
+            String snow = _flags.charAt(2) == '0' ? "false" : "true";
+            String hail = _flags.charAt(3) == '0' ? "false" : "true";
+            String thunder = _flags.charAt(4) == '0' ? "false" : "true";
+            String tornado = _flags.charAt(5) == '0' ? "false" : "true";
 
             List<String> lines = Arrays.asList( "{",
                 "   \"station\"" + ":" + _measurement.getStation() + ",",
@@ -70,12 +45,12 @@ public class Writer {
                 "   \"precipitation\"" + ":" + _measurement.getPrecipitation() + ",",
                 "   \"snowfall\"" + ":" + _measurement.getSnowfall() + ",",
                 "   \"flags\"" + ":" + "{",
-                "       \"froze\"" + ":" + "\"" + _freeze + "\"" + ",",
-                "       \"rained\"" + ":" + "\"" + _rain + "\"" + ",",
-                "       \"snowed\"" + ":" + "\"" + _snow + "\"" + ",",
-                "       \"hailed\"" + ":" + "\"" + _hail + "\"" + ",",
-                "       \"thunder\"" + ":" + "\"" + _thunder + "\"" + ",",
-                "       \"tornado\"" + ":" + "\"" + _tornado + "\"",
+                "       \"froze\"" + ":" + "\"" + freeze + "\"" + ",",
+                "       \"rained\"" + ":" + "\"" + rain + "\"" + ",",
+                "       \"snowed\"" + ":" + "\"" + snow + "\"" + ",",
+                "       \"hailed\"" + ":" + "\"" + hail + "\"" + ",",
+                "       \"thunder\"" + ":" + "\"" + thunder + "\"" + ",",
+                "       \"tornado\"" + ":" + "\"" + tornado + "\"",
                 "   },",
                 "   \"clouds\"" + ":" + _measurement.getClouds() + ",",
                 "   \"wind_direction\"" + ":" + _measurement.getWindDirection(),
@@ -89,7 +64,6 @@ public class Writer {
         catch (IOException | StringIndexOutOfBoundsException e) {
             Util.throwError("Unable to accept request", e.getMessage());
             e.printStackTrace();
-            return;
         }
     }
 }
