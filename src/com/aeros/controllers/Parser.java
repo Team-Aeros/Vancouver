@@ -29,7 +29,7 @@ public class Parser {
         _bufferedReader = bufferedReader;
     }
 
-    public void parse() {
+    public void run() {
         Measurement measurement = new Measurement();
         String line;
         String easyLine;
@@ -50,6 +50,7 @@ public class Parser {
 
         try {
             while ((line = _bufferedReader.readLine()) != null) {
+                System.out.println(line);
                 easyLine = line.trim();
                 done = false;
 
