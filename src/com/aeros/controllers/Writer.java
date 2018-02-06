@@ -15,7 +15,7 @@ class Writer {
 
     private Measurement _measurement;
 
-    private static final String SAVE_LOCATION = "/srv/http/vancouver"; // Replace this if your webdav map isn't located here
+    private static final String SAVE_LOCATION = "/srv/http/webdav"; // Replace this if your webdav folder isn't located here
 
     Writer(Measurement measurement) {
         _measurement = measurement;

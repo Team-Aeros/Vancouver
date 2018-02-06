@@ -50,7 +50,6 @@ public class Parser {
 
         try {
             while ((line = _bufferedReader.readLine()) != null) {
-                System.out.println(line);
                 easyLine = line.trim();
                 done = false;
 
@@ -69,7 +68,7 @@ public class Parser {
                                 measurement.checkAndFixReadings(_measurements.get(stationId));
 
                                 for (int i = 0; i < 4; i++) {
-                                    if (_measurements.get(stationId)[i] == null)
+                                    if (_measurements.get(stationId)[i] != null)
                                         break;
 
                                     _measurements.get(stationId)[i] = _measurements.get(stationId)[i + 1];
@@ -93,7 +92,7 @@ public class Parser {
                             }
 
                             measurement = new Measurement();
-                            done = true;
+                            break;
                         }
                         else {
                             matcher = pattern.matcher(measurementLine);
