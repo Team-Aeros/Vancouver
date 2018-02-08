@@ -1,7 +1,7 @@
 /*
  * Vancouver
  *
- * @version     2.0 Alpha 1
+ * @version     1.0 RC1
  * @author      Aeros Development
  * @copyright   2017, Vancouver
  *
@@ -15,7 +15,7 @@ import com.aeros.models.Measurement;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +23,7 @@ public class Parser {
 
     private BufferedReader _bufferedReader;
 
-    private volatile static HashMap<Integer, Measurement[]> _measurements = new HashMap<>();
+    private static ConcurrentHashMap<Integer, Measurement[]> _measurements = new ConcurrentHashMap<>();
 
     public Parser(BufferedReader bufferedReader) {
         _bufferedReader = bufferedReader;

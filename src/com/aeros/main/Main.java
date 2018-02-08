@@ -1,7 +1,7 @@
 /*
  * Vancouver
  *
- * @version     2.0 Alpha 1
+ * @version     1.0 RC1
  * @author      Aeros Development
  * @copyright   2017, Vancouver
  *
@@ -26,7 +26,7 @@ public class Main {
         int num = 0;
 
         System.out.println(":: Vancouver - Weather Data Parser Software");
-        LogEntry.setPaths();
+        //LogEntry.setPaths();
 
         try {
             // @todo This should be left in here if we ever decide to add a command line parameter for the port number
