@@ -1,7 +1,7 @@
 /*
  * Vancouver
  *
- * @version     1.0 RC1
+ * @version     1.0 RC2
  * @author      Aeros Development
  * @copyright   2017, Vancouver
  *
@@ -11,7 +11,6 @@
 package com.aeros.main;
 
 import com.aeros.controllers.Connection;
-import com.aeros.models.LogEntry;
 
 import java.io.IOException;
 import java.net.ServerSocket;
