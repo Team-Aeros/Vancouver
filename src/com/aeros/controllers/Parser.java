@@ -24,6 +24,7 @@ public class Parser {
     private BufferedReader _bufferedReader;
 
     private static ConcurrentHashMap<Integer, Measurement[]> _measurements = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<Integer, Writer> _writers = new ConcurrentHashMap<>();
 
     public Parser(BufferedReader bufferedReader) {
         _bufferedReader = bufferedReader;
@@ -82,7 +83,7 @@ public class Parser {
                                 if (!emptySlotFound)
                                     _measurements.get(stationId)[4] = measurement;
 
-                                new Writer(measurement).write();
+                                addMeasurementToWriter(stationId, measurement);
                             }
                             else {
                                 Util.throwError("Invalid measurement");
@@ -176,6 +177,13 @@ public class Parser {
         catch (IOException e) {
             System.out.println("An IOException occurred: " + e.getMessage());
         }
+    }
+
+    private synchronized static void addMeasurementToWriter(int stationId, Measurement measurement) {
+        if (!_writers.containsKey(stationId))
+            _writers.put(stationId, new Writer(stationId));
+
+        _writers.get(stationId).addMeasurement(measurement);
     }
 
     private synchronized static void addStation(int stationId) {

@@ -11,7 +11,6 @@
 package com.aeros.main;
 
 import com.aeros.controllers.Connection;
-import com.aeros.models.LogEntry;
 
 import java.io.IOException;
 import java.net.ServerSocket;
