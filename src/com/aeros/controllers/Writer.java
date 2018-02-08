@@ -12,22 +12,55 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Writes measurements to a .json file.
+ * @since 1.0 Beta 1
+ * @author Aeros Development
+ */
 class Writer {
 
+    /**
+     * This ArrayList contains the measurements that should be written to file
+     */
     private ArrayList<Measurement> _measurements;
 
+    /**
+     * The .json files are saved in this directory
+     */
     private static final String SAVE_LOCATION = "/mnt"; // Replace this if your webdav folder isn't located here
 
+    /**
+     * What time (minute) did the last reading return?
+     */
     private String _lastMinute;
+
+    /**
+     * What time (hour) did the last reading return?
+     */
     private String _lastHour;
+
+    /**
+     * What date did the last reading return?
+     */
     private String _lastDate;
+
+    /**
+     * The id of the station
+     */
     private int _stationId;
 
+    /**
+     * Creates a new instance of the Writer class
+     * @param stationId The station id
+     */
     Writer(int stationId) {
         _measurements = new ArrayList<>();
         _stationId = stationId;
     }
 
+    /**
+     * Writers all measurements of the last minute to file
+     */
     private void write() {
         try {
             List<String> lines = new ArrayList<>();
@@ -80,6 +113,7 @@ class Writer {
             bufferedWriter.write(String.join(",\n", lines));
             bufferedWriter.write("\n]");
             bufferedWriter.flush();
+            bufferedWriter.close();
         }
         catch (IOException | StringIndexOutOfBoundsException e) {
             if (e instanceof StringIndexOutOfBoundsException)
@@ -91,6 +125,10 @@ class Writer {
         }
     }
 
+    /**
+     * Adds a measurement to the _measurements array. This method also triggers the write() method if needed.
+     * @param measurement The measurement
+     */
     void addMeasurement(Measurement measurement) {
         String[] parsedTime = measurement.getTime().split(":");
 

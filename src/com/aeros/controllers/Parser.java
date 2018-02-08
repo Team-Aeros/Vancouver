@@ -19,17 +19,40 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class parses and corrects XML data and sends it to the writer.
+ * @since 1.0 Beta 1
+ * @author Aeros Development
+ */
 public class Parser {
 
+    /**
+     * We need a buffered reader for reading the XML data. No InputStream needed, though!
+     */
     private BufferedReader _bufferedReader;
 
+    /**
+     * This property contains the last 5 measurements for each station
+     */
     private static ConcurrentHashMap<Integer, Measurement[]> _measurements = new ConcurrentHashMap<>();
+
+    /**
+     * This property contains a Writer object for each station
+     */
     private static ConcurrentHashMap<Integer, Writer> _writers = new ConcurrentHashMap<>();
 
+    /**
+     * Creates a new instance of the Parser class
+     * @param bufferedReader Text in a buffered reader. This will be read through, line by line.
+     */
     public Parser(BufferedReader bufferedReader) {
         _bufferedReader = bufferedReader;
     }
 
+    /**
+     * Runs the parser. Note; called 'run' because this class was (at some time) intended to be
+     * in its own thread. Although that didn't happen, we didn't change it back either.
+     */
     public void run() {
         Measurement measurement = new Measurement();
         String line;
@@ -179,6 +202,11 @@ public class Parser {
         }
     }
 
+    /**
+     * Adds a measurement to the writer
+     * @param stationId The station id
+     * @param measurement The measurement you want to save
+     */
     private synchronized static void addMeasurementToWriter(int stationId, Measurement measurement) {
         if (!_writers.containsKey(stationId))
             _writers.put(stationId, new Writer(stationId));
@@ -186,6 +214,10 @@ public class Parser {
         _writers.get(stationId).addMeasurement(measurement);
     }
 
+    /**
+     * Adds a station with 5 empty elements to the _measurements map
+     * @param stationId The station id
+     */
     private synchronized static void addStation(int stationId) {
         _measurements.put(stationId, new Measurement[5]);
     }
