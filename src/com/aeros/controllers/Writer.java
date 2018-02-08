@@ -80,6 +80,7 @@ class Writer {
             bufferedWriter.write(String.join(",\n", lines));
             bufferedWriter.write("\n]");
             bufferedWriter.flush();
+            bufferedWriter.close();
         }
         catch (IOException | StringIndexOutOfBoundsException e) {
             if (e instanceof StringIndexOutOfBoundsException)
