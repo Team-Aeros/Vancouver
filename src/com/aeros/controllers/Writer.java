@@ -6,7 +6,6 @@ import com.aeros.models.Measurement;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,7 +16,7 @@ class Writer {
 
     private ArrayList<Measurement> _measurements;
 
-    private static final String SAVE_LOCATION = "/srv/http/webdav"; // Replace this if your webdav folder isn't located here
+    private static final String SAVE_LOCATION = "/mnt"; // Replace this if your webdav folder isn't located here
 
     private String _lastMinute;
     private String _lastHour;
