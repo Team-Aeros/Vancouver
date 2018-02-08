@@ -1,7 +1,7 @@
 /*
  * Vancouver
  *
- * @version     1.0 RC1
+ * @version     1.0 RC2
  * @author      Aeros Development
  * @copyright   2017, Vancouver
  *

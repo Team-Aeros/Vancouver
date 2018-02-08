@@ -43,28 +43,29 @@ class Writer {
                 String thunder = _flags.charAt(4) == '0' ? "false" : "true";
                 String tornado = _flags.charAt(5) == '0' ? "false" : "true";
 
+                // If the following code makes you vomit: you're not the only one. It works, though.
                 lines.add("\t{\n" +
-                    "\t   \"station\": " + measurement.getStation() + ",\n" +
-                    "\t   \"date\": \"" + measurement.getDate() + "\",\n" +
-                    "\t   \"time\": \"" + measurement.getTime() + "\",\n" +
-                    "\t   \"temperature\": " + measurement.getTemperature() + ",\n" +
-                    "\t   \"dew_point\": " + measurement.getDewPoint() + ",\n" +
-                    "\t   \"station_pressure\": " + measurement.getStationPressure() + ",\n" +
-                    "\t   \"sea_level_pressure\": " + measurement.getSeaLevelPressure() + ",\n" +
-                    "\t   \"visibility\": " + measurement.getVisibility() + ",\n" +
-                    "\t   \"wind_speed\": " + measurement.getWindSpeed() + ",\n" +
-                    "\t   \"precipitation\": " + measurement.getPrecipitation() + ",\n" +
-                    "\t   \"snowfall\": " + measurement.getSnowfall() + ",\n" +
-                    "\t   \"flags\": {\n" +
-                    "\t       \"froze\": \"" + freeze + "\",\n" +
-                    "\t       \"rained\": \"" + rain + "\",\n" +
-                    "\t       \"snowed\": \"" + snow + "\",\n" +
-                    "\t       \"hailed\": \"" + hail + "\",\n" +
-                    "\t       \"thunder\": \"" + thunder + "\",\n" +
-                    "\t       \"tornado\": \"" + tornado + "\"\n" +
-                    "\t   },\n" +
-                    "\t   \"clouds\": " + measurement.getClouds() + ",\n" +
-                    "\t   \"wind_direction\": " + measurement.getWindDirection() + "\n" +
+                    "\t\t\"station\": " + measurement.getStation() + ",\n" +
+                    "\t\t\"date\": \"" + measurement.getDate() + "\",\n" +
+                    "\t\t\"time\": \"" + measurement.getTime() + "\",\n" +
+                    "\t\t\"temperature\": " + measurement.getTemperature() + ",\n" +
+                    "\t\t\"dew_point\": " + measurement.getDewPoint() + ",\n" +
+                    "\t\t\"station_pressure\": " + measurement.getStationPressure() + ",\n" +
+                    "\t\t\"sea_level_pressure\": " + measurement.getSeaLevelPressure() + ",\n" +
+                    "\t\t\"visibility\": " + measurement.getVisibility() + ",\n" +
+                    "\t\t\"wind_speed\": " + measurement.getWindSpeed() + ",\n" +
+                    "\t\t\"precipitation\": " + measurement.getPrecipitation() + ",\n" +
+                    "\t\t\"snowfall\": " + measurement.getSnowfall() + ",\n" +
+                    "\t\t\"flags\": {\n" +
+                    "\t\t\t\"froze\": \"" + freeze + "\",\n" +
+                    "\t\t\t\"rained\": \"" + rain + "\",\n" +
+                    "\t\t\t\"snowed\": \"" + snow + "\",\n" +
+                    "\t\t\t\"hailed\": \"" + hail + "\",\n" +
+                    "\t\t\t\"thunder\": \"" + thunder + "\",\n" +
+                    "\t\t\t\"tornado\": \"" + tornado + "\"\n" +
+                    "\t\t},\n" +
+                    "\t\t\"clouds\": " + measurement.getClouds() + ",\n" +
+                    "\t\t\"wind_direction\": " + measurement.getWindDirection() + "\n" +
                     "\t}");
             }
 
