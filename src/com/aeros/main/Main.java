@@ -16,10 +16,23 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * This is the main entry point for Vancouver.
+ * @since 1.0 Beta 1
+ * @author Aeros Development
+ */
 public class Main {
 
+    /**
+     * The port number, which will be used for the connection with the generator.
+     */
     private static final int PORT = 53200;
 
+    /**
+     * This method is called automatically by the Java Virtual Machine. It starts the socket listening
+     * process and creates new connection objects.
+     * @param args Command line parameters (if any)
+     */
     public static void main(String[] args) {
         ServerSocket serverSocket = null;
         int num = 0;
